@@ -34,7 +34,7 @@ impl Todo {
         }
     }
 
-    fn add(item: Todo) {
+    fn add(item: &Todo) {
         if !Path::new(TODO_PATH).exists() {
             println!("Please initialize a to.do file with 'td init'");
         } else {
@@ -57,9 +57,16 @@ fn main() {
     let item2: Todo = Todo{ id: 2, msg: "Test item 2".to_owned(), done: true};
     let item3: Todo = Todo{ id: 2, msg: "Read to.do file".to_owned(), done: false};
 
+    Todo::add(&item1);
+    Todo::add(&item2);
+    Todo::add(&item3);
 
-    Todo::add(item1);
-    Todo::add(item2);
-    Todo::add(item3);
+    let mut todos: Vec<Todo> = Vec::new();
+    todos.push(item1);
+    todos.push(item2);
+    todos.push(item3);
 
+    for i in 0..todos.len() {
+        Todo::list(&mut todos[i]);
+    }
 }
