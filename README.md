@@ -1,6 +1,8 @@
-# td - CLI todos
+# td - cli todos
 
 ## Usage
+
+*Planned usage, not yet implemented.*
 
 - `td list` || `td` -> lists the items located in the `to.do` file.
 
