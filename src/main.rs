@@ -21,10 +21,12 @@ struct Todo {
 }
 
 impl Todo {
-    fn list(&mut self) {
+    // list item
+    fn list_item(&mut self) {
         println!("{} - [{}] {}", self.id, done_char(self.done), self.msg);
     }
 
+    // initialize to.do file
     fn init() {
         if Path::new(TODO_PATH).exists() {
             println!("Whoops, to.do file already exists");
@@ -34,6 +36,7 @@ impl Todo {
         }
     }
 
+    // add item to to.do file
     fn add(item: &Todo) {
         if !Path::new(TODO_PATH).exists() {
             println!("Please initialize a to.do file with 'td init'");
@@ -43,30 +46,35 @@ impl Todo {
                 .open(TODO_PATH)
                 .expect("Cannot open to.do file");
 
-            let sj = serde_json::to_string(&item).unwrap();
+            let serialized = serde_json::to_string(&item).unwrap();
 
-            data.write(sj.as_bytes()).expect("Failed to write to to.do file");
+            data.write(serialized.as_bytes()).expect("Failed to write to to.do file");
         }
     }
 }
 
 fn main() {
+    // initialize to.do file
     Todo::init();
 
+    // test items
     let item1: Todo = Todo{ id: 1, msg: "Test item 1".to_owned(), done: true};
     let item2: Todo = Todo{ id: 2, msg: "Test item 2".to_owned(), done: true};
-    let item3: Todo = Todo{ id: 2, msg: "Read to.do file".to_owned(), done: false};
+    let item3: Todo = Todo{ id: 3, msg: "Read to.do file".to_owned(), done: false};
 
+    // add items to to.do file
     Todo::add(&item1);
     Todo::add(&item2);
     Todo::add(&item3);
 
+    // create a vector of todos and push items to the vector
     let mut todos: Vec<Todo> = Vec::new();
     todos.push(item1);
     todos.push(item2);
     todos.push(item3);
 
+    // loop over items in vector and list them 
     for i in 0..todos.len() {
-        Todo::list(&mut todos[i]);
+        Todo::list_item(&mut todos[i]);
     }
 }
