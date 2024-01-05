@@ -1,59 +1,20 @@
-use std::fs::{File, OpenOptions};
-use std::io::Write;
-use std::path::Path;
-use serde::{Deserialize, Serialize};
+use clap::{command, Command};
 
-const TODO_PATH: &str = "./to.do";
-
-fn done_char(done: bool) -> char {
-    if done == true {
-        return '*'
-    } else {
-        return ' '
-    }
-}
-
-#[derive(Serialize, Deserialize, Debug)]
-struct Todo {
-    id: usize,
-    msg: String,
-    done: bool,
-}
-
-impl Todo {
-    // list item
-    fn list_item(&mut self) {
-        println!("{} - [{}] {}", self.id, done_char(self.done), self.msg);
-    }
-
-    // initialize to.do file
-    fn init() {
-        if Path::new(TODO_PATH).exists() {
-            println!("Whoops, to.do file already exists");
-        } else {
-            File::create(TODO_PATH).expect("Uh oh, to.do file creation failed");
-            println!("Created to.do file");
-        }
-    }
-
-    // add item to to.do file
-    fn add(item: &Todo) {
-        if !Path::new(TODO_PATH).exists() {
-            println!("Please initialize a to.do file with 'td init'");
-        } else {
-            let mut data = OpenOptions::new()
-                .append(true)
-                .open(TODO_PATH)
-                .expect("Cannot open to.do file");
-
-            let serialized = serde_json::to_string(&item).unwrap();
-
-            data.write(serialized.as_bytes()).expect("Failed to write to to.do file");
-        }
-    }
-}
+use td::*;
 
 fn main() {
+    let matches = command!()
+        .subcommand(
+            Command::new("init")
+                .about("Initialize to.do file")
+        )
+        .get_matches();
+
+    match matches.subcommand() {
+        Some(("init", _)) => Todo::init(),
+        _ => {}
+    }
+    /*
     // initialize to.do file
     Todo::init();
 
@@ -77,4 +38,5 @@ fn main() {
     for i in 0..todos.len() {
         Todo::list_item(&mut todos[i]);
     }
+    */
 }
