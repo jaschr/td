@@ -15,9 +15,9 @@ fn done_char(done: bool) -> char {
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Todo {
-    id: usize,
-    msg: String,
-    done: bool,
+    pub id: usize,
+    pub msg: String,
+    pub done: bool,
 }
 
 impl Todo {
@@ -53,9 +53,9 @@ impl Todo {
     }
 }
 
-pub fn list(file: Vec<Todo>) {
-    for mut item in file {
-        Todo::list_item(&mut item);
+pub fn list(todos: &mut Vec<Todo>) {
+    for i in 0..todos.len() {
+        Todo::list_item(&mut todos[i]);
     }
 }
 
