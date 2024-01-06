@@ -14,6 +14,11 @@ fn done_char(done: bool) -> char {
 }
 
 #[derive(Serialize, Deserialize, Debug)]
+pub struct Todos {
+    pub items: Vec<Todo>
+}
+
+#[derive(Serialize, Deserialize, Debug)]
 pub struct Todo {
     pub id: usize,
     pub msg: String,
@@ -37,7 +42,7 @@ impl Todo {
     }
 
     // add item to to.do file
-    pub fn add(item: &Todo) {
+    pub fn add_item(item: &Todo) {
         if !Path::new(TODO_PATH).exists() {
             println!("Please initialize a to.do file with 'td init'");
         } else {
@@ -59,3 +64,8 @@ pub fn list(todos: &mut Vec<Todo>) {
     }
 }
 
+pub fn add_item(item: &str, todos: &mut Vec<Todo>) {
+    let todo: Todo = Todo{ id: (todos.len() + 1), msg: item.to_owned(), done: false };
+    Todo::add_item(&todo);
+    todos.push(todo);
+}
