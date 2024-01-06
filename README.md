@@ -1,11 +1,49 @@
 # td - cli todos
 
-## Usage
+## Commands
 
-*Planned usage, not yet implemented.*
+### init
 
-- `td list` || `td` -> lists the items located in the `to.do` file.
+Usage: `td init`
 
-- `td x` where 'x' is the index -> marks supplied item as completed.
+Creates a to.do file.
 
-- `td add "..."` -> adds the given string as a new todo item.
+### list
+
+Usage: `td list`
+
+Lists all todos in the to.do file.
+
+### add
+
+Usage: `td add <item>`
+
+Add a new todo item to the to.do file
+
+### rm
+
+Usage: `td rm <id>`
+
+Remove the todo item at the specified ID.
+
+### done
+
+Usage: `td done <id>`
+
+Marks the todo item at the specified ID as completed.
+
+### clean
+
+Removes all items from the to.do file.
+
+## Issues
+
+- `td add` needs to append a new item to the items Vec<Todo> of the Todos struct.
+
+- Ensuring **to.do* file exists and **Todos** is not empty prior to deserializing file not yet implemented.
+
+- Serializing/Deserializing data properly into/from structs.
+
+- Commands `td rm`, `td done`, and `td clean` not yet implemented.
+
+- Unit tests not yet implemented.
